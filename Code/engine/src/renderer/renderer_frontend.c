@@ -28,15 +28,6 @@ void renderer_shutdown(){
     hfree(backend, sizeof(renderer_backend), MEMORY_TAG_RENDERER);
 }
 
-void renderer_on_resized(u16 width, u16 height)
-{
-    if(backend){
-        backend->resized(backend, width, height);
-    }else{
-        HWARN("renderer backend does not exist to accept resize: %i %i", width, height);
-    }
-}
-
 b8 renderer_begin_frame(f32 delta_time){
     return backend->begin_frame(backend, delta_time);
 }
@@ -45,6 +36,15 @@ b8 renderer_end_frame(f32 delta_time){
     b8 result =  backend->end_frame(backend, delta_time);
     backend->frame_number++;
     return result;
+}
+
+void renderer_on_resized(u16 width, u16 height)
+{
+    if(backend){
+        backend->resized(backend, width, height);
+    }else{
+        HWARN("renderer backend does not exist to accept resize: %i %i", width, height);
+    }
 }
 
 b8 renderer_draw_frame(renderer_packet* packet){
