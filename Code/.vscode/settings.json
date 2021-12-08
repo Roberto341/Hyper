@@ -63,7 +63,9 @@
         "vulkan_device.h": "c",
         "vulkan_swapchain.h": "c",
         "vulkan_framebuffer.h": "c",
-        "vulkan_renderpass.h": "c"
+        "vulkan_renderpass.h": "c",
+        "renderer_backend.h": "c",
+        "renderer_types.inl": "c"
     },
     "cmake.configureOnOpen": false
 } 

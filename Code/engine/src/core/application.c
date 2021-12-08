@@ -215,18 +215,25 @@ b8 application_on_resized(u16 code, void* sender, void* listener_inst, event_con
         u16 width = context.data.u16[0];
         u16 height = context.data.u16[1];
 
+        // Check if different
         if(width != app_state.width || height != app_state.height){
             app_state.width = width;
             app_state.height = height;
 
             HDEBUG("Window resize: %i %i", width, height);
-            return TRUE;
-            if(app_state.is_suspended){
-                HINFO("Window restored, resuming application");
-                app_state.is_suspended = FALSE;
+
+            //Handle minimization
+            if(width == 0 || height == 0){
+                HINFO("Window minimized, suspending application.");
+                app_state.is_suspended = TRUE;
+                return TRUE;
             }else{
-            app_state.game_inst->on_resize(app_state.game_inst, width, height);
-            renderer_on_resized(width, height);
+                if(app_state.is_suspended){
+                    HINFO("Window restored, resuming application");
+                    app_state.is_suspended = FALSE;
+                }
+                app_state.game_inst->on_resize(app_state.game_inst, width, height);
+                renderer_on_resized(width, height);
             }
         }
     }
