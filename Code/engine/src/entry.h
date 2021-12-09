@@ -1,7 +1,6 @@
 #pragma once
 #include "core/application.h"
 #include "core/logger.h"
-#include "core/hmemory.h"
 #include "game_types.h"
 
 // Externaly-defined function to create a game.
@@ -14,9 +13,6 @@ extern b8 create_game(game* out_game);
 
 int main(void){
     // Request the game instance from the application.    
-
-    initialize_memory();
-
     game game_inst;
    if(!create_game(&game_inst)){
         HFATAL("Could not create game!");
@@ -38,7 +34,5 @@ int main(void){
         HINFO("Application did not shutdown gracefully!");
         return 2;    
     }
-
-    shutdown_memory();
     return 0;
 }

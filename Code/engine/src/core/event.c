@@ -24,19 +24,19 @@ typedef struct event_system_state{
  * Event system internal state
  * 
  */
-static b8 is_initialized = FALSE;
+static b8 is_initialized = false;
 static event_system_state state;
 
 b8 event_initialize(){
-    if(is_initialized == TRUE){
-        return FALSE;
+    if(is_initialized == true){
+        return false;
     }
-    is_initialized = FALSE;
+    is_initialized = false;
     hzero_memory(&state, sizeof(state));
 
-    is_initialized = TRUE;
+    is_initialized = true;
 
-    return TRUE;
+    return true;
 }
 
 void event_shutdown(){
@@ -50,8 +50,8 @@ void event_shutdown(){
 }
 
 b8 event_register(u16 code, void* listener, PFN_on_event on_event){
-    if(is_initialized == FALSE){
-        return FALSE;
+    if(is_initialized == false){
+        return false;
     }
 
     if(state.registerd[code].events == 0){
@@ -62,7 +62,7 @@ b8 event_register(u16 code, void* listener, PFN_on_event on_event){
     for(u64 i = 0; i < registerd_count; ++i){
         if(state.registerd[code].events[i].listener == listener){
             // TODO: warn
-            return FALSE;
+            return false;
         }
     }
          registered_event event;
@@ -70,17 +70,17 @@ b8 event_register(u16 code, void* listener, PFN_on_event on_event){
         event.callback = on_event;
         darray_push(state.registerd[code].events, event);
         
-        return TRUE;   
+        return true;   
 }
 
 b8 event_unregister(u16 code, void* listener, PFN_on_event on_event){
-    if(is_initialized == FALSE){
-        return FALSE;
+    if(is_initialized == false){
+        return false;
     }
 
     if(state.registerd[code].events == 0){
         // TODO: warn
-        return FALSE;
+        return false;
     }
         u64 registed_count = darray_length(state.registerd[code].events);
         for(u64 i = 0; i < registed_count; ++i){
@@ -89,29 +89,29 @@ b8 event_unregister(u16 code, void* listener, PFN_on_event on_event){
                 // Found one, remove it
                 registered_event popped_event;
                 darray_pop_at(state.registerd[code].events, i, &popped_event);
-                return TRUE;
+                return true;
             }
         }
         // Not found
-        return FALSE;   
+        return false;   
 }
 
 b8 event_fire(u16 code, void* sender, event_context context){
-    if(is_initialized == FALSE){
-        return FALSE;
+    if(is_initialized == false){
+        return false;
     }
 
     // If nothing is registerd for the code, boot out.
     if(state.registerd[code].events == 0){
-        return FALSE;
+        return false;
     }
 
     u64 registed_count = darray_length(state.registerd[code].events);
         for(u64 i = 0; i < registed_count; ++i){
             registered_event e = state.registerd[code].events[i];
             if(e.callback(code, sender, e.listener, context)){
-                return TRUE;
+                return true;
             }
         }
-    return FALSE;
+    return false;
 }

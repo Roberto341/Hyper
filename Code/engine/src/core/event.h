@@ -31,33 +31,33 @@ void event_shutdown();
 
 /**
  * Register to listen for when events are sent with the provided code. Events with duplicate
- * listener/callback combos will not be registerd again and will cause this to return FALSE.
+ * listener/callback combos will not be registerd again and will cause this to return false.
  * @param code The event code to listen for.
  *  @param listener A pointer to a listener instance. Can be 0/NULL.
  *  @param on_event The callback function pointer to be invoked when the event code is fired.
- * @returns TRUE if the event is successfully registerd; otherwise false.
+ * @returns true if the event is successfully registerd; otherwise false.
  */
 
 HAPI b8 event_register(u16 code, void* listener, PFN_on_event on_event);
 
 /**
  * Unregister from listening for when events are sent with the provided code. If no matching
- * registration is found, this function returns FALSE.
+ * registration is found, this function returns false.
  * @param code The event code to stop listening for.
  *  @param listener A pointer to a listener instance. Can be 0/NULL.
  *  @param on_event The callback function pointer to be unregisterd.
- * @returns TRUE if the event is successfully registerd; otherwise false.
+ * @returns true if the event is successfully registerd; otherwise false.
  */
 
 HAPI b8 event_unregister(u16 code, void* listener, PFN_on_event on_event);
 
 /**
  * Fires an event and listener of the given code. If an event handler returns
- * TRUE, the event is handled and is not passed on to any more listeners.
+ * true, the event is handled and is not passed on to any more listeners.
  * @param code The event code to fire.
  * @param sender A pointer to the sender. Can be 0/NULL.
  * @param data The event data.
- * @returns TRUE if handled, otherwise FALSE.
+ * @returns true if handled, otherwise false.
  */
 
 HAPI b8 event_fire(u16 code, void* sender, event_context context);

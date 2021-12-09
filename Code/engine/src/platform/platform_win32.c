@@ -25,6 +25,13 @@ typedef struct internal_state {
 static f64 clock_frequency;
 static LARGE_INTEGER start_time;
 
+
+void clock_setup(){
+    LARGE_INTEGER frequency;
+    QueryPerformanceFrequency(&frequency);
+    clock_frequency = 1.0f / (f64)frequency.QuadPart;
+    QueryPerformanceCounter(&start_time);
+}
 LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARAM l_param);
 
 b8 platform_startup(
@@ -55,7 +62,7 @@ b8 platform_startup(
 
     if (!RegisterClassA(&wc)) {
         MessageBoxA(0, "Window registration failed", "Error", MB_ICONEXCLAMATION | MB_OK);
-        return FALSE;
+        return false;
     }
 
     // Create window
@@ -97,7 +104,7 @@ b8 platform_startup(
         MessageBoxA(NULL, "Window creation failed!", "Error!", MB_ICONEXCLAMATION | MB_OK);
 
         HFATAL("Window creation failed!");
-        return FALSE;
+        return false;
     } else {
         state->hwnd = handle;
     }
@@ -110,12 +117,9 @@ b8 platform_startup(
     ShowWindow(state->hwnd, show_window_command_flags);
 
     // Clock setup
-    LARGE_INTEGER frequency;
-    QueryPerformanceFrequency(&frequency);
-    clock_frequency = 1.0 / (f64)frequency.QuadPart;
-    QueryPerformanceCounter(&start_time);
+   clock_setup();
 
-    return TRUE;
+    return true;
 }
 
 void platform_shutdown(platform_state *plat_state) {
@@ -135,7 +139,7 @@ b8 platform_pump_messages(platform_state *plat_state) {
         DispatchMessageA(&message);
     }
 
-    return TRUE;
+    return true;
 }
 
 void *platform_allocate(u64 size, b8 aligned) {
@@ -181,6 +185,9 @@ void platform_console_write_error(const char *message, u8 colour) {
 }
 
 f64 platform_get_absolute_time() {
+    if(!clock_frequency){
+        clock_setup();
+    }
     LARGE_INTEGER now_time;
     QueryPerformanceCounter(&now_time);
     return (f64)now_time.QuadPart * clock_frequency;
@@ -206,10 +213,10 @@ b8 platform_create_vulkan_surface(platform_state *plat_state, vulkan_context* co
     VkResult result = vkCreateWin32SurfaceKHR(context->instance, &create_info, context->allocator, &state->surface);
     if(result != VK_SUCCESS){
         HFATAL("Vulkan surface creation failed.");
-        return FALSE;
+        return false;
     }
     context->surface = state->surface;
-    return TRUE;
+    return true;
 }
 
 LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARAM l_param) {
@@ -218,10 +225,9 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
             // Notify the OS that erasing will be handled by the application to prevent flicker.
             return 1;
         case WM_CLOSE:
-            // TODO: Fire an event for the application to quit.
             event_context data = {};
             event_fire(EVENT_CODE_APPLICATION_QUIT, 0, data);
-            return TRUE;
+            return 0;
         case WM_DESTROY:
             PostQuitMessage(0);
             return 0;
