@@ -1,7 +1,7 @@
 BUILD_DIR := bin
 OBJ_DIR := obj
 
-ASSEMBLY := testbed
+ASSEMBLY := tests
 EXTENSION := 
 COMPILER_FLAGS := -g -MD -Werror=vla -fdeclspec -fPIC
 INCLUDE_FLAGS := -Iengine/src -I$(VULKAN_SDK)\include
@@ -34,10 +34,11 @@ compile: #compile .c files
 
 .PHONY: clean
 clean: # clean build directory
-	rm -rf $(BUILD_DIR)\$(ASSEMBLY)
-	rm -rf $(OBJ_DIR)\$(ASSEMBLY)
+	rm -rf $(BUILD_DIR)/$(ASSEMBLY)
+	rm -rf $(OBJ_DIR)/$(ASSEMBLY)
 
 $(OBJ_DIR)/%.c.o: %.c # compile .c to .o object
 	@echo   $<...
 	@clang $< $(COMPILER_FLAGS) -c -o $@ $(DEFINES) $(INCLUDE_FLAGS)
+
 -include $(OBJ_FILES:.o=.d)

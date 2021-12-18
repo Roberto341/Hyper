@@ -31,7 +31,7 @@
         },
         {
             "text": "NOTE:",
-            "color": "green",
+            "color": "turquoise",
             "backgroundColor": "rgba(0,0,0,0)"
         }
     ],
@@ -51,21 +51,14 @@
         "windowsx.h": "c",
         "vulkan_platform.h": "c",
         "renderer_frontend.h": "c",
-        "platform.h": "c",
-        "game_types.h": "c",
-        "logger.h": "c",
+        "iosfwd": "c",
+        "tuple": "cpp",
+        "utility": "cpp",
         "hmemory.h": "c",
         "defines.h": "c",
-        "darry.h": "c",
-        "tuple": "c",
-        "utility": "c",
-        "vulkan_image.h": "c",
-        "vulkan_device.h": "c",
-        "vulkan_swapchain.h": "c",
-        "vulkan_framebuffer.h": "c",
-        "vulkan_renderpass.h": "c",
-        "renderer_backend.h": "c",
-        "renderer_types.inl": "c"
-    },
-    "cmake.configureOnOpen": false
+        "vulkan_types.inl": "c",
+        "clock.h": "c",
+        "hstring.h": "c",
+        "linear_allocator_tests.h": "c"
+    }
 } 

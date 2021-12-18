@@ -7,13 +7,35 @@
 #include <string.h>
 #include <stdarg.h>
 
-b8 initialize_logging() {
-    // TODO: create log file.
+typedef struct logger_system_state {
+    b8 initialized;
+} logger_system_state;
+
+static logger_system_state* state_ptr;
+
+b8 initialize_logging(u64* memory_requirement, void* state) {
+    *memory_requirement = sizeof(logger_system_state);
+    if (state == 0) {
+        return true;
+    }
+
+    state_ptr = state;
+    state_ptr->initialized = true;
+
+    // TODO: Remove this
+    HFATAL("A test message: %f", 3.14f);
+    HERROR("A test message: %f", 3.14f);
+    HWARN("A test message: %f", 3.14f);
+    HINFO("A test message: %f", 3.14f);
+    HDEBUG("A test message: %f", 3.14f);
+    HTRACE("A test message: %f", 3.14f);
+
     return true;
 }
 
-void shutdown_logging() {
+void shutdown_logging(void* state) {
     // TODO: cleanup logging/write queued entries.
+    state_ptr = 0;
 }
 
 void log_output(log_level level, const char* message, ...) {

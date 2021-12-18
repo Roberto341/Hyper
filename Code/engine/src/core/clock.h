@@ -8,8 +8,8 @@ typedef struct clock{
 
 // Updates the provided clock. Should be called just before checking elapsed time
 // Has no effect on non-started clocks.
-void clock_start(clock* clock);
+HAPI void clock_start(clock* clock);
 
-void clock_update(clock* clock);
+HAPI void clock_update(clock* clock);
 
-void clock_stop(clock* clock);
+HAPI void clock_stop(clock* clock);
