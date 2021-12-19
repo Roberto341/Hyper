@@ -59,6 +59,7 @@
         "vulkan_types.inl": "c",
         "clock.h": "c",
         "hstring.h": "c",
-        "linear_allocator_tests.h": "c"
+        "linear_allocator_tests.h": "c",
+        "filesystem.h": "c"
     }
 } 
