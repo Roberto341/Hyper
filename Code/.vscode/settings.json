@@ -60,6 +60,8 @@
         "clock.h": "c",
         "hstring.h": "c",
         "linear_allocator_tests.h": "c",
-        "filesystem.h": "c"
+        "filesystem.h": "c",
+        "stat.h": "c",
+        "string.h": "c"
     }
 } 
