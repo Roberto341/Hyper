@@ -41,7 +41,6 @@ b8 platform_startup(
     glfwSetErrorCallback(platform_error_callback);
     if (!glfwInit()) {
         HFATAL("Failed to initialise GLFW");
-        return FALSE;
         return false;
     }
 
@@ -50,7 +49,6 @@ b8 platform_startup(
     if (!state->glfw_window) {
         HFATAL("Failed to create a window");
         glfwTerminate();
-        return FALSE;
         return false;
     }
 
@@ -62,8 +60,7 @@ b8 platform_startup(
     glfwSetWindowPos(state->glfw_window, x, y);
     glfwShowWindow(state->glfw_window);
     start_time = glfwGetTime();
-
-    return TRUE;
+    
     return true;
 }
 
@@ -132,11 +129,8 @@ b8 platform_create_vulkan_surface(platform_state* plat_state, vulkan_context* co
     VkResult result = glfwCreateWindowSurface(context->instance, state->glfw_window, 0, &context->surface);
     if (result != VK_SUCCESS) {
         HFATAL("Vulkan surface creation failed.");
-        return FALSE;
         return false;
     }
-
-    return TRUE;
     return true;
 }
 
