@@ -1,8 +1,0 @@
-*.exp
-*.ilk
-*.pdb
-*.lib
-*.dll
-*.exe
-bin/
-obj/
